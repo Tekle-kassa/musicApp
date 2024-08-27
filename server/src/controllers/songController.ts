@@ -42,3 +42,21 @@ export const getSongById = async (
     next(error);
   }
 };
+
+export const updateSong = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const updatedSong = await Song.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedSong) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    res.status(200).json(updatedSong);
+  } catch (error) {
+    next(error);
+  }
+};
