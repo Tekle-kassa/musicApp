@@ -60,3 +60,19 @@ export const updateSong = async (
     next(error);
   }
 };
+
+export const deleteSong = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const deletedSong = await Song.findByIdAndDelete(req.params.id);
+    if (!deletedSong) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    res.status(200).json({ message: "Song deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
