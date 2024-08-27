@@ -5,6 +5,7 @@
     "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\""
   },
   "devDependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.0.1",
+    "ts-node": "^10.9.2"
   }
 }
