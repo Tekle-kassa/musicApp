@@ -5,6 +5,7 @@ export interface ISong extends Document {
   artist: string;
   album: string;
   genre: string;
+  photoUrl?: string;
 }
 
 const SongSchema: Schema = new Schema({
@@ -23,6 +24,9 @@ const SongSchema: Schema = new Schema({
   genre: {
     type: String,
     required: true,
+  },
+  songImage: {
+    type: String,
   },
 });
 export default mongoose.model<ISong>("Song", SongSchema);

@@ -1,4 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+// import { v2 as cloudinary } from "cloudinary";
+import cloudinary from "../config/cloudinaryConfig";
+import fs from "fs";
 import Song from "../models/songModel";
 
 export const createSong = async (
@@ -8,14 +11,25 @@ export const createSong = async (
 ) => {
   try {
     const { title, artist, album, genre } = req.body;
+    let songImage = "";
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "musicapp",
+      });
+      songImage = result.secure_url;
+
+      fs.unlinkSync(req.file.path);
+    }
+
     const existingSong = await Song.findOne({ title, artist, album });
     if (existingSong) {
       return res.status(409).json({ message: "Song already exists" });
     }
-    const newSong = new Song({ title, artist, album, genre });
+    const newSong = new Song({ title, artist, album, genre, songImage });
     await newSong.save();
     res.status(201).json(newSong);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
