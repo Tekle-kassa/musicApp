@@ -14,7 +14,7 @@ import upload from "../middleware/multer";
 
 const router = express.Router();
 
-router.post("/songs", upload.single("photo"), validateSong, createSong);
+router.post("/songs", upload.single("songImage"), validateSong, createSong);
 router.get("/songs", getSongs);
 router.get("/songs/statistics", getStatistics);
 router.get("/songs/:id", getSongById);
