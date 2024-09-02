@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 // import { v2 as cloudinary } from "cloudinary";
 import cloudinary from "../config/cloudinaryConfig";
 import fs from "fs";
-import Song from "../models/songModel";
+import Song, { ISong } from "../models/songModel";
 
 export const createSong = async (
   req: Request,
@@ -85,12 +85,28 @@ export const updateSong = async (
   next: NextFunction
 ) => {
   try {
-    const updatedSong = await Song.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!updatedSong) {
+    const { title, artist, album, genre } = req.body;
+    const existingSong = await Song.findById(req.params.id);
+    let songImage = "";
+    if (!existingSong) {
       return res.status(404).json({ message: "Song not found" });
     }
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "musicapp",
+      });
+      songImage = result.secure_url;
+
+      fs.unlinkSync(req.file.path);
+    } else {
+      songImage = existingSong.songImage || "";
+    }
+    const updatedSong = await Song.findByIdAndUpdate(
+      req.params.id,
+      { title, artist, album, genre, songImage },
+      { new: true }
+    );
     res.status(200).json(updatedSong);
   } catch (error) {
     next(error);

@@ -5,7 +5,7 @@ export interface ISong extends Document {
   artist: string;
   album: string;
   genre: string;
-  photoUrl?: string;
+  songImage?: string;
 }
 
 const SongSchema: Schema = new Schema({
