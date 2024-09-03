@@ -103,7 +103,7 @@ export const updateSong = async (
       songImage = existingSong.songImage || "";
     }
     const updatedSong = await Song.findByIdAndUpdate(
-      req.params.id,
+      id,
       { title, artist, album, genre, songImage },
       { new: true }
     );
