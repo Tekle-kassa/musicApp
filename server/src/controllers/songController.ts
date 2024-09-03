@@ -85,8 +85,8 @@ export const updateSong = async (
   next: NextFunction
 ) => {
   try {
-    const { title, artist, album, genre } = req.body;
-    const existingSong = await Song.findById(req.params.id);
+    const { title, artist, album, genre, id } = req.body;
+    const existingSong = await Song.findById(id);
     let songImage = "";
     if (!existingSong) {
       return res.status(404).json({ message: "Song not found" });

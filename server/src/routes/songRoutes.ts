@@ -18,7 +18,7 @@ router.post("/songs", upload.single("songImage"), validateSong, createSong);
 router.get("/songs", getSongs);
 router.get("/songs/statistics", getStatistics);
 router.get("/songs/:id", getSongById);
-router.put("/songs/:id", upload.single("songImage"), updateSong);
+router.put("/songs", upload.single("songImage"), updateSong);
 router.delete("/songs/:id", deleteSong);
 router.get("/songs/genre/:genre", getSongsByGenre);
 router.get("/songs/artist/:artist", getSongsByArtist);
