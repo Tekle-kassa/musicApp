@@ -19,9 +19,6 @@ function App() {
   useEffect(() => {
     dispatch(fetchTotalAction());
   }, []);
-  useEffect(() => {
-    console.log("...............this is data in the useEffect", data);
-  }, [data]);
   return (
     <div className="bg-primary text-white flex flex-col items-center gap-6 min-h-screen h-auto py-10 overflow-auto">
       <div className="flex flex-wrap gap-4">

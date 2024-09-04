@@ -3,8 +3,8 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { motion } from "framer-motion";
 import OverlayCard from "./OverlayCard";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
 import { updateSongAction } from "../features/update-song-slice";
 import { MdClose } from "react-icons/md";
 import { deleteSongAction } from "../features/delet-song-slice";
@@ -47,6 +47,18 @@ const MusicElement = ({
       setSongFile(event.target.files[0]);
     }
   };
+  const { isSuccessful: isUpdateSuccessful, errors: updateErrors } =
+    useSelector((state: RootState) => state.updateSong);
+
+  useEffect(() => {
+    if (isUpdateSuccessful) {
+      alert("Song Updated Successfully");
+      setShowUpdateModal(false);
+    } else if (updateErrors) {
+      alert("Error Updating Song try again");
+    }
+  }, [isUpdateSuccessful, updateErrors]);
+
   const updateSong = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
@@ -194,29 +206,35 @@ const MusicElement = ({
         </OverlayCard>
       )}
       {showDeletionModal && (
-        <div className="absolute top-0 right-0 ">
-          <div className="relative h-40 bg-black rounded-2xl shadow-2xl w-50 p-4 flex flex-col justify-center items-center gap-6">
-            <MdClose
-              className="text-orange-800 text-2xl cursor-pointer absolute top-4 right-4"
-              onClick={() => setShowDeletionModal(false)}
-            />
-            <p>Are you sure do you want delete !</p>
-            <div className="flex gap-4">
-              <button
-                className="px-3 py-2 rounded-2xl border-2 border-white"
+        <OverlayCard
+          customClass="bg-opacity-0 w-full lg:w-1/2 text-gray-400 p-4 rounded-xl shadow-xl"
+          setShowModal={setShowDeletionModal}
+          removecloser={true}
+        >
+          <div className="absolute top-[50%] left-[50%] ">
+            <div className="relative h-40 bg-black rounded-2xl shadow-2xl max-w-80 p-4 flex flex-col justify-center items-center gap-6">
+              <MdClose
+                className="text-orange-800 text-2xl cursor-pointer absolute top-4 right-4"
                 onClick={() => setShowDeletionModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-3 py-2 rounded-2xl bg-red-800 text-balance"
-                onClick={deleteSong}
-              >
-                Delete
-              </button>
+              />
+              <p>Are you sure do you want delete {title} !</p>
+              <div className="flex gap-4">
+                <button
+                  className="px-3 py-2 rounded-2xl border-2 border-white"
+                  onClick={() => setShowDeletionModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-3 py-2 rounded-2xl bg-red-800 text-balance"
+                  onClick={deleteSong}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </OverlayCard>
       )}
     </>
   );

@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { USERS, CREATOR, songType, songListStateType } from "../type/type";
 interface songCreateType {
+  id: string;
   isSuccessful?: boolean;
   isLoading?: boolean;
   errors?: string;
 }
 
 const initialSong: songCreateType = {
+  id: "",
   isSuccessful: false,
   isLoading: false,
   errors: "",
@@ -19,6 +21,7 @@ export const deleteSongSlice = createSlice({
     deleteSongAction: (state, { payload: songId }: PayloadAction<string>) => {
       state.isLoading = true;
       state.errors = "";
+      state.id = songId;
     },
     deleteSongSuccessAction: (
       state,

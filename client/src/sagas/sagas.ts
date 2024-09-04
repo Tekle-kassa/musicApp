@@ -1,7 +1,12 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { put, takeLatest } from "redux-saga/effects";
-import { songType, GET_USER_BY_ID, CREATE_SONG } from "../type/type";
+import {
+  songType,
+  GET_USER_BY_ID,
+  CREATE_SONG,
+  sortPrametrs,
+} from "../type/type";
 import {
   getUserErrorAction,
   getUserSuccessAction,
@@ -16,13 +21,18 @@ import { deleteSongSuccessAction } from "../features/delet-song-slice";
 import { deleteSongErrorAction } from "../features/delet-song-slice";
 import { fetchTotalSuccessAction } from "../features/fetch-total-slice";
 import { fetchTotalErrorAction } from "../features/fetch-total-slice";
+import { title } from "process";
 
 // Generator function
-function* getUserSaga({ payload: id }: PayloadAction<string>) {
+function* getUserSaga({
+  payload: { offset = 0, pageSize = 7, sort = "title", asc = true },
+}: PayloadAction<sortPrametrs>) {
   try {
     // You can also export the axios call as a function.
     const response: AxiosResponse<songType> = yield axios.get(
-      `https://musicappbackend-y4cf.onrender.com/api/songs?offset=0&pageSize=7`
+      `https://musicappbackend-y4cf.onrender.com/api/songs?offset=${offset}&pageSize=${pageSize}&sort=${sort}&order=${
+        asc ? "asc" : "desc"
+      }`
     );
     yield put(getUserSuccessAction(response.data));
   } catch (error: any) {
