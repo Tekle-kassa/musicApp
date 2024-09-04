@@ -1,10 +1,10 @@
 import songs from "../features/song-slice";
 import { songType } from "../type/type";
 export type StateType = {
-    songs: songType;
+  songs: songType;
 };
 const rootReducers = {
-    songs,
+  songs,
 };
 
 export default rootReducers;

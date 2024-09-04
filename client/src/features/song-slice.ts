@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { USERS, songType, songListStateType } from "../type/type";
+import { USERS, songType, songListStateType, sortPrametrs } from "../type/type";
 
 const initialSongs: songListStateType = {
   songs: {
@@ -13,7 +13,10 @@ export const songSlice = createSlice({
   name: USERS,
   initialState: initialSongs,
   reducers: {
-    getUserAction: (state: songListStateType) => {
+    getUserAction: (
+      state: songListStateType,
+      payload: PayloadAction<sortPrametrs>
+    ) => {
       state.songs.isLoading = true;
       state.songs.errors = "";
     },

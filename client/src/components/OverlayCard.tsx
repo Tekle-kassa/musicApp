@@ -5,12 +5,14 @@ interface OverlayCardProps {
   setShowModal: (bool: boolean) => void;
   customClass?: string;
   children: React.ReactNode;
+  removecloser?: boolean;
 }
 
 const OverlayCard = ({
   children,
   customClass,
   setShowModal,
+  removecloser = false,
 }: OverlayCardProps) => {
   return (
     <>
@@ -20,10 +22,12 @@ const OverlayCard = ({
         <div
           className={`relative h-full flex justify-center items-start pt-20 ${customClass}`}
         >
-          <MdClose
-            className="text-orange-800 text-2xl cursor-pointer absolute top-4 right-4"
-            onClick={() => setShowModal(false)}
-          />
+          {!removecloser && (
+            <MdClose
+              className="text-orange-800 text-2xl cursor-pointer absolute top-4 right-4"
+              onClick={() => setShowModal(false)}
+            />
+          )}
 
           <>{children}</>
         </div>

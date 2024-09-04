@@ -1,15 +1,17 @@
+export type song = {
+  _id: string;
+  title: string;
+  album: string;
+  songImage: string;
+  artist: string;
+  genre: string;
+};
+
 export type songType = {
   totalSongs: number;
   totalPages: number;
   currentPage: number;
-  songs: {
-    _id: string;
-    title: string;
-    album: string;
-    songImage: string;
-    artist: string;
-    genre: string;
-  }[];
+  songs: song[];
 };
 export type ISongState = {
   data: songType | null;
@@ -18,6 +20,12 @@ export type ISongState = {
 };
 export type songListStateType = {
   songs: ISongState;
+};
+export type sortPrametrs = {
+  offset: number;
+  pageSize: number;
+  sort: string;
+  asc: boolean;
 };
 
 export const USERS = "users";
