@@ -47,9 +47,12 @@ export const getSongs = async (
     const sort = (req.query.sort as string) || "title";
     const order = (req.query.order as string) || "asc";
     const sortOrder = order === "asc" ? 1 : -1;
+    console.log("Sort field:", sort);
+    console.log("Sort order:", sortOrder);
     const songs = await Song.find()
       .skip(offset)
       .limit(pageSize)
+      .collation({ locale: "en", strength: 2 })
       .sort({ [sort]: sortOrder })
       .exec();
     const totalSongs = await Song.countDocuments().exec();
